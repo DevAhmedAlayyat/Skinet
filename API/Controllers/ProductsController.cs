@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -11,9 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : ApiBaseController
     {
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandsRepo;
@@ -32,11 +31,21 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<List<Pagination<ProductToReturnDto>>>> GetProducts([FromQuery]ProductsSpecsParams productParams)
         {
-            var spec = new ProductsWithBrandsAndTypesSpecification();
+            var spec = new ProductsWithBrandsAndTypesSpecification(productParams);
+            var countSpec = new ProductsFiltringForCountingSpecification(productParams);
+
             var products = await _productsRepo.ListAllWithSpecAsync(spec);
-            return Ok(_mapper.Map<List<ProductToReturnDto>>(products));
+            var itemsCount = await _productsRepo.CountAsync(countSpec);
+            var data = _mapper.Map<List<ProductToReturnDto>>(products);
+            return Ok(new Pagination<ProductToReturnDto>
+            {
+                Count = itemsCount,
+                PageIndex = productParams.PageIndex,
+                PageSize = productParams.PageSize,
+                Data = data
+            });
         }
 
         [HttpGet("{id}")]
