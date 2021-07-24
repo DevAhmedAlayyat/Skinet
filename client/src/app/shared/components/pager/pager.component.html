@@ -1,0 +1,2 @@
+<pagination *ngIf="totalItemsCount && totalItemsCount > 0" [totalItems]="totalItemsCount"
+  [itemsPerPage]="pageSize" (pageChanged)="onPagerChange($event)"></pagination>

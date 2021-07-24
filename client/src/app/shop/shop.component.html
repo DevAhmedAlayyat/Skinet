@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+
+    <section class="col-3 text-uppercase">
+
+      <h5 class="text-warning">Sort By</h5>
+      <select class="mb-3 w-100" (change)="onSortChanged($event.target.value)">
+        <option *ngFor="let item of sortOptions" [value]="item.value">
+          {{item.key}}
+        </option>
+      </select>
+      <h5 class="text-warning">Brands</h5>
+      <ul class="list-group my-3">
+        <li class="list-group-item" *ngFor="let brand of brands" [value]="brand.id"
+          [class.active]="shopParams.brandId === brand.id" (click)="onBrandSelected(brand.id)">
+          {{brand.name}}
+        </li>
+      </ul>
+      <h5 class="text-warning">Types</h5>
+      <ul class="list-group my-3">
+        <li class="list-group-item" *ngFor="let type of types" [value]="type.id"
+          [class.active]="shopParams.typeId === type.id" (click)="onTypeSelected(type.id)">{{type.name}}</li>
+      </ul>
+
+    </section>
+
+    <section class="col-9">
+
+      <section class="d-flex justify-content-between align-content-center pb-2">
+        <app-paging-header
+          [totalItemsCount]="totalItemsCount"
+          [pageNumber]="shopParams.pageNumber"
+          [pageSize]="shopParams.pageSize"
+        ></app-paging-header>
+        <div class="form-inline mt-2">
+          <input (keyUp.enter)="onSearch()" type="text" #search class="form-control"  style="width: 300px;" placeholder="Search">
+          <button (click)="onSearch()" class="btn btn-outline-primary mx-2">Search</button>
+          <button (click)="onReset()" class="btn btn-outline-success ml-2">Reset</button>
+        </div>
+      </section>
+
+      <div class="row">
+        <div class="col-4 mb-4" *ngFor="let item of products">
+          <app-product-item [product]="item"></app-product-item>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <div class="row">
+          <div class="col-xs-12 col-12">
+            <app-pager
+            [pageSize]="shopParams.pageSize"
+            [totalItemsCount]="totalItemsCount"
+            (pagerChange)="onPageChanged($event)"
+            ></app-pager>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
