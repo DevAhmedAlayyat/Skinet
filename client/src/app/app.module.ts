@@ -17,8 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CoreModule,
-    ShopModule
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
