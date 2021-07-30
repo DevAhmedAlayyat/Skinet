@@ -38,6 +38,8 @@ namespace API.Middlewares
                 var jsonSerializationOptions = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
                 var jsonResponse = JsonSerializer.Serialize(response, jsonSerializationOptions);
 
+                context.Response.StatusCode = 500;
+                context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(jsonResponse);
             }
         }

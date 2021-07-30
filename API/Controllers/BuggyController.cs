@@ -27,7 +27,7 @@ namespace API.Controllers
         {
             var thing = _context.Products.Find(55);
             var thingToReturn = thing.ToString();
-            return Ok();
+            return BadRequest();
         }
         [HttpGet("badrequest")]
         public ActionResult GetBadRequest()

@@ -11,7 +11,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
   styleUrls: ["./shop.component.scss"],
 })
 export class ShopComponent implements OnInit {
-  @ViewChild("search") search: ElementRef;
+  @ViewChild("search", { static: false }) search: ElementRef;
   products: IProduct[];
   brands: IBrand[];
   types: IType[];
